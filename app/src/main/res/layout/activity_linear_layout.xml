@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- CONTENEDOR PRINCIPAL -->
+<!-- Orientación horizontal para colocar las 4 columnas de izquierda a derecha -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:weightSum="4"> <!-- Define que el espacio total se divide en 4 partes iguales -->
+
+    <!-- ****************************************** -->
+    <!-- COLUMNA 1: Color sólido entero             -->
+    <!--******************************************-->
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#F8EB67"/> <!-- Amarillo -->
+
+    <!--******************************************-->
+    <!-- COLUMNA 2: Dividida verticalmente en 5     -->
+    <!--******************************************-->
+    <!-- Al ser una columna, su orientación es vertical -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:weightSum="5"> <!-- Se divide internamente en 5 partes iguales -->
+
+        <!-- Como el layout es vertical, el alto (height) es 0dp y usamos weight -->
+        <View android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:background="#696DF0"/>
+        <View android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:background="#B2FF59"/>
+        <View android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:background="#FF5252"/>
+        <View android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:background="#FFFF00"/>
+        <View android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:background="#69F0AE"/>
+    </LinearLayout>
+
+    <!--******************************************-->
+    <!-- COLUMNA 3: Color sólido entero             -->
+    <!--******************************************-->
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#FFFF00"/>
+
+    <!--******************************************-->
+    <!-- COLUMNA 4: Bloque superior + 5 barras base -->
+    <!--******************************************-->
+    <!-- Esta es la columna que fallaba. Todo debe estar dentro de este LinearLayout vertical -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:weightSum="5"> <!-- Lo dividimos en 5 partes verticales -->
+
+        <!-- PARTE SUPERIOR DE LA COLUMNA 4 -->
+        <!-- Le damos un weight de 4 para que ocupe 4/5 del alto total -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:background="#29B6F6"/> <!-- Azul claro -->
+
+        <!-- PARTE INFERIOR DE LA COLUMNA 4 (El layout anidado) -->
+        <!-- Le damos un weight de 1 para que ocupe el 1/5 restante del alto -->
+        <!-- Su orientación es horizontal para que los colores se pongan uno al lado del otro -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="5">
+
+            <!-- Como este sub-layout es horizontal, aquí el ancho (width) es 0dp -->
+            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="#B71C1C"/>
+            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="#880E4F"/>
+            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="#4A148C"/>
+            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="#01579B"/>
+            <View android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:background="#212121"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
