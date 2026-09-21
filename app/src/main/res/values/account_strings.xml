@@ -1,0 +1,32 @@
+<resources>
+    <string name="login_title">Tus envíos, más cerca.</string>
+    <string name="login_description">Inicia sesión para acceder a tu espacio de rastreo.</string>
+    <string name="username">Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="login">Iniciar sesión</string>
+    <string name="create_account">Crear nuevo usuario</string>
+    <string name="register_title">Crea tu cuenta</string>
+    <string name="register_description">Completa tus datos para comenzar. Todos los campos son obligatorios.</string>
+    <string name="name">Nombre</string>
+    <string name="surname">Apellidos</string>
+    <string name="age">Edad</string>
+    <string name="address">Dirección o ubicación</string>
+    <string name="phone">Teléfono</string>
+    <string name="confirm_password">Confirmar contraseña</string>
+    <string name="submit">Enviar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="registration_success">Usuario registrado correctamente. Ya puedes iniciar sesión.</string>
+    <string name="required_field">Completa este campo.</string>
+    <string name="invalid_credentials">Usuario o contraseña incorrectos.</string>
+    <string name="duplicate_user">Este usuario ya está registrado.</string>
+    <string name="database_error">No se pudo completar la operación. Intenta de nuevo.</string>
+    <string name="track_title">¿Dónde está tu paquete?</string>
+    <string name="track_description">Ingresa un código de rastreo para comenzar la búsqueda de tu pedido.</string>
+    <string name="tracking_code">Código de rastreo</string>
+    <string name="search">Buscar paquete</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="tracking_note">La búsqueda estará disponible próximamente.</string>
+    <string name="brand_caption">TU RUTA, EN UN SOLO LUGAR</string>
+    <string name="local_note">Tu cuenta se guarda en este dispositivo.</string>
+</resources>
+

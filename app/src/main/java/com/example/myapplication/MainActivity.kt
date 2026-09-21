@@ -1,47 +1,78 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.myapplication.ui.theme.MyApplicationTheme
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
+import com.example.myapplication.data.RegistrationValidator
+import com.example.myapplication.data.UserRepository
+import com.example.myapplication.data.local.AppDatabase
+import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.ui.applyScreenInsets
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.launch
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            MyApplicationTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+    private var busy = false
+    private val register = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            binding.etUsername.setText(result.data?.getStringExtra("usuario").orEmpty())
+            binding.etPassword.text?.clear()
+            binding.tvStatus.text = getString(R.string.registration_success)
+            binding.tvStatus.isVisible = true
         }
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        applyScreenInsets(binding.root)
+        binding.btnCreateAccount.setOnClickListener {
+            register.launch(Intent(this, RegisterActivity::class.java))
+        }
+        binding.btnLogin.setOnClickListener { login() }
+    }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MyApplicationTheme {
-        Greeting("Android")
+    private fun login() {
+        if (busy) return
+        val username = RegistrationValidator.normalizeUser(binding.etUsername.text.toString())
+        val password = binding.etPassword.text.toString()
+        binding.usernameInput.error = if (username.isBlank()) getString(R.string.required_field) else null
+        binding.passwordInput.error = if (password.isEmpty()) getString(R.string.required_field) else null
+        binding.tvStatus.isVisible = false
+        if (username.isBlank() || password.isEmpty()) return
+        setBusy(true)
+        lifecycleScope.launch {
+            try {
+                val user = UserRepository(AppDatabase.getInstance(applicationContext).userDao()).login(username, password)
+                if (user == null) {
+                    binding.tvStatus.text = getString(R.string.invalid_credentials)
+                    binding.tvStatus.isVisible = true
+                } else {
+                    Session.start(user.id)
+                    binding.etPassword.text?.clear()
+                    startActivity(Intent(this@MainActivity, TrackingActivity::class.java))
+                    finish()
+                }
+            } catch (cancelled: CancellationException) {
+                throw cancelled
+            } catch (_: Exception) {
+                binding.tvStatus.text = getString(R.string.database_error)
+                binding.tvStatus.isVisible = true
+            } finally { setBusy(false) }
+        }
+    }
+
+    private fun setBusy(value: Boolean) {
+        busy = value
+        binding.progress.isVisible = value
+        binding.btnLogin.isEnabled = !value
+        binding.btnCreateAccount.isEnabled = !value
+        binding.etUsername.isEnabled = !value
+        binding.etPassword.isEnabled = !value
     }
 }
