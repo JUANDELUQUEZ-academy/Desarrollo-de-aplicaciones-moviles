@@ -25,36 +25,56 @@
             android:layout_marginTop="12dp"
             android:textSize="30sp"
             android:textColor="#15383D"
-            android:text="@string/track_title" />
+            android:text="@string/package_detail" />
         <TextView
-            android:id="@+id/tvWelcome"
+            android:id="@+id/tvCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textSize="24sp"
+            android:textColor="#15383D" />
+        <TextView
+            android:id="@+id/tvDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:textSize="20sp"
             android:textColor="#15383D" />
         <TextView
+            android:id="@+id/tvRecipient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textSize="16sp"
+            android:textColor="#15383D" />
+        <TextView
+            android:id="@+id/tvSummary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:textSize="18sp"
-            android:textColor="#15383D"
-            android:text="@string/track_description" />
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/trackingInput"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:textColor="#15383D" />
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:hint="@string/tracking_code">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etTrackingCode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textCapCharacters"
-                android:maxLength="60"
-                android:singleLine="true" />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:textSize="14sp"
+            android:textColor="#15383D"
+            android:text="@string/detail_notes" />
+        <TextView
+            android:id="@+id/tvNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textSize="16sp"
+            android:textColor="#15383D" />
+        <TextView
+            android:id="@+id/tvDates"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textSize="13sp"
+            android:textColor="#15383D" />
         <TextView
             android:id="@+id/tvStatus"
             android:layout_width="match_parent"
@@ -71,32 +91,13 @@
             android:layout_gravity="center_horizontal"
             android:visibility="gone" />
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSearch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="52dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/search"
-            android:textAllCaps="false"
-            app:cornerRadius="14dp" />
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnProfile"
+            android:id="@+id/btnBack"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="52dp"
             android:layout_marginTop="10dp"
-            android:text="@string/my_profile"
-            android:textAllCaps="false"
-            app:cornerRadius="14dp" />
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnLogout"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="52dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/logout"
+            android:text="@string/back"
             android:textAllCaps="false"
             app:cornerRadius="14dp" />
     </LinearLayout>

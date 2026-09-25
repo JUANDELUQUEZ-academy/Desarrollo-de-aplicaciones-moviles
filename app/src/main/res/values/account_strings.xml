@@ -25,8 +25,6 @@
     <string name="tracking_code">Código de rastreo</string>
     <string name="search">Buscar paquete</string>
     <string name="logout">Cerrar sesión</string>
-    <string name="tracking_note">La búsqueda estará disponible próximamente.</string>
     <string name="brand_caption">TU RUTA, EN UN SOLO LUGAR</string>
     <string name="local_note">Tu cuenta se guarda en este dispositivo.</string>
 </resources>
-

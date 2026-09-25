@@ -128,10 +128,11 @@ class AccountFlowTest {
             shot("07-login-invalido")
             fill(R.id.etPassword, password)
             onView(withId(R.id.btnLogin)).perform(scrollTo(), click())
-            waitFor { onView(withId(R.id.btnSearch)).check(matches(isDisplayed())) }
+            waitFor { onView(withId(R.id.btnSearch)).check(matches(org.hamcrest.Matchers.allOf(isDisplayed(), isEnabled()))) }
             shot("08-rastreo")
             fill(R.id.etTrackingCode, "PAQ123456")
             onView(withId(R.id.btnSearch)).perform(scrollTo(), click())
+            waitFor { onView(withId(R.id.btnLogout)).check(matches(isEnabled())) }
             onView(withId(R.id.btnSearch)).check(matches(isDisplayed()))
             onView(withId(R.id.btnLogout)).perform(scrollTo(), click())
             onView(withId(R.id.btnLogin)).check(matches(isDisplayed()))

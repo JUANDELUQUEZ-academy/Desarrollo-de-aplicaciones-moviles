@@ -16,7 +16,7 @@ data class Registration(
 object RegistrationValidator {
     fun normalizeUser(value: String): String = value.trim().lowercase(Locale.ROOT)
 
-    fun validate(data: Registration): Map<String, String> = buildMap {
+    fun validate(data: Registration, passwordOptional: Boolean = false): Map<String, String> = buildMap {
         if (!normalizeUser(data.usuario).matches(Regex("[a-z0-9._-]{3,30}")))
             put("usuario", "Usa de 3 a 30 letras, números, puntos o guiones.")
         if (data.nombre.isBlank()) put("nombre", "Escribe tu nombre.")
@@ -29,10 +29,10 @@ object RegistrationValidator {
         val digits = phone.count(Char::isDigit)
         if (!phone.matches(Regex("[+0-9 ()-]+")) || digits !in 7..15)
             put("telefono", "Escribe un teléfono de 7 a 15 dígitos.")
-        if (data.password.isBlank() || data.password.length !in 8..128)
+        val changePassword = !passwordOptional || data.password.isNotEmpty() || data.confirmation.isNotEmpty()
+        if (changePassword && (data.password.isBlank() || data.password.length !in 8..128))
             put("password", "Usa una contraseña de 8 a 128 caracteres.")
-        if (data.confirmation.isEmpty() || data.password != data.confirmation)
+        if (changePassword && (data.confirmation.isEmpty() || data.password != data.confirmation))
             put("confirmation", "Las contraseñas deben coincidir exactamente.")
     }
 }
-

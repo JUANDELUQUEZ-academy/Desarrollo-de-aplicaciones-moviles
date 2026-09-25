@@ -25,36 +25,63 @@
             android:layout_marginTop="12dp"
             android:textSize="30sp"
             android:textColor="#15383D"
-            android:text="@string/track_title" />
-        <TextView
-            android:id="@+id/tvWelcome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textSize="20sp"
-            android:textColor="#15383D" />
+            android:text="@string/admin_title" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="#15383D"
-            android:text="@string/track_description" />
+            android:text="@string/admin_description" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCreatePackage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="52dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/new_package"
+            android:textAllCaps="false"
+            app:cornerRadius="14dp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnToggleSection"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="52dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/show_clients"
+            android:textAllCaps="false"
+            app:cornerRadius="14dp" />
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/trackingInput"
+            android:id="@+id/filterInput"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:hint="@string/tracking_code">
+            android:hint="@string/package_filter">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etTrackingCode"
+                android:id="@+id/etFilter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapCharacters"
-                android:maxLength="60"
+                android:inputType="text"
+                android:maxLength="100"
                 android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:id="@+id/tvSectionTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textSize="22sp"
+            android:textColor="#15383D"
+            android:text="@string/packages_title" />
+        <TextView
+            android:id="@+id/tvCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textSize="14sp"
+            android:textColor="#15383D" />
         <TextView
             android:id="@+id/tvStatus"
             android:layout_width="match_parent"
@@ -70,25 +97,18 @@
             android:layout_height="32dp"
             android:layout_gravity="center_horizontal"
             android:visibility="gone" />
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSearch"
+        <TextView
+            android:id="@+id/tvEmpty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="52dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/search"
-            android:textAllCaps="false"
-            app:cornerRadius="14dp" />
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnProfile"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_marginTop="12dp"
+            android:textSize="16sp"
+            android:textColor="#15383D" />
+        <LinearLayout
+            android:id="@+id/items"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="52dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/my_profile"
-            android:textAllCaps="false"
-            app:cornerRadius="14dp" />
+            android:orientation="vertical" />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogout"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"

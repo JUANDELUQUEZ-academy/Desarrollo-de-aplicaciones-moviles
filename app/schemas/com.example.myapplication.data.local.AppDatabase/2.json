@@ -1,0 +1,225 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "15de5d65fb1065c8e7e74a8c65129630",
+    "entities": [
+      {
+        "tableName": "usuarios",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `usuario` TEXT NOT NULL, `nombre` TEXT NOT NULL, `apellidos` TEXT NOT NULL, `edad` INTEGER NOT NULL, `direccion` TEXT NOT NULL, `telefono` TEXT NOT NULL, `passwordHash` BLOB NOT NULL, `passwordSalt` BLOB NOT NULL, `rol` TEXT NOT NULL DEFAULT 'CLIENTE')",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "usuario",
+            "columnName": "usuario",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nombre",
+            "columnName": "nombre",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "apellidos",
+            "columnName": "apellidos",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "edad",
+            "columnName": "edad",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "direccion",
+            "columnName": "direccion",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "telefono",
+            "columnName": "telefono",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "passwordHash",
+            "columnName": "passwordHash",
+            "affinity": "BLOB",
+            "notNull": true
+          },
+          {
+            "fieldPath": "passwordSalt",
+            "columnName": "passwordSalt",
+            "affinity": "BLOB",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rol",
+            "columnName": "rol",
+            "affinity": "TEXT",
+            "notNull": true,
+            "defaultValue": "'CLIENTE'"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_usuarios_usuario",
+            "unique": true,
+            "columnNames": [
+              "usuario"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_usuarios_usuario` ON `${TABLE_NAME}` (`usuario`)"
+          }
+        ]
+      },
+      {
+        "tableName": "paquetes",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `codigo` TEXT NOT NULL, `clienteId` INTEGER NOT NULL, `descripcion` TEXT NOT NULL, `origen` TEXT NOT NULL, `destino` TEXT NOT NULL, `estado` TEXT NOT NULL, `fechaEstimada` TEXT NOT NULL, `notas` TEXT NOT NULL, `creadoEn` INTEGER NOT NULL, `actualizadoEn` INTEGER NOT NULL, `creadoPor` INTEGER NOT NULL, `actualizadoPor` INTEGER NOT NULL, `eliminadoEn` INTEGER, FOREIGN KEY(`clienteId`) REFERENCES `usuarios`(`id`) ON UPDATE NO ACTION ON DELETE RESTRICT )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "codigo",
+            "columnName": "codigo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "clienteId",
+            "columnName": "clienteId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "descripcion",
+            "columnName": "descripcion",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "origen",
+            "columnName": "origen",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "destino",
+            "columnName": "destino",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "estado",
+            "columnName": "estado",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fechaEstimada",
+            "columnName": "fechaEstimada",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notas",
+            "columnName": "notas",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "creadoEn",
+            "columnName": "creadoEn",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "actualizadoEn",
+            "columnName": "actualizadoEn",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "creadoPor",
+            "columnName": "creadoPor",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "actualizadoPor",
+            "columnName": "actualizadoPor",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eliminadoEn",
+            "columnName": "eliminadoEn",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_paquetes_codigo",
+            "unique": true,
+            "columnNames": [
+              "codigo"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_paquetes_codigo` ON `${TABLE_NAME}` (`codigo`)"
+          },
+          {
+            "name": "index_paquetes_clienteId",
+            "unique": false,
+            "columnNames": [
+              "clienteId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_paquetes_clienteId` ON `${TABLE_NAME}` (`clienteId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "usuarios",
+            "onDelete": "RESTRICT",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "clienteId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '15de5d65fb1065c8e7e74a8c65129630')"
+    ]
+  }
+}

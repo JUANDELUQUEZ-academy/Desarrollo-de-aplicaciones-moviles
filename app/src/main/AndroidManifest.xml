@@ -28,6 +28,10 @@
 
         <activity android:name=".RegisterActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".TrackingActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".AdminActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ParcelEditorActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ParcelDetailActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ProfileActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
         <!-- Activities de ejercicios anteriores, conservadas fuera del flujo principal. -->
         <activity
             android:name="MyFirstApp.FirstAppActivity"

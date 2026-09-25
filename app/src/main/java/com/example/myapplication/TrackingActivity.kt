@@ -2,33 +2,39 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
+import com.example.myapplication.data.local.Roles
+import com.example.myapplication.data.local.User
 import com.example.myapplication.databinding.ActivityTrackingBinding
-import com.example.myapplication.ui.applyScreenInsets
+import com.example.myapplication.ui.ProtectedActivity
 
-class TrackingActivity : AppCompatActivity() {
+class TrackingActivity : ProtectedActivity() {
+    override val requiredRole = Roles.CLIENT
+    private lateinit var binding: ActivityTrackingBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (Session.userId == null) {
-            returnToLogin()
-            return
+        binding = ActivityTrackingBinding.inflate(layoutInflater)
+        bindScreen(binding.root, binding.tvStatus, binding.progress)
+        binding.etTrackingCode.doAfterTextChanged {
+            binding.trackingInput.error = null
+            binding.tvStatus.isVisible = false
         }
-        val binding = ActivityTrackingBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        applyScreenInsets(binding.root)
-        // Búsqueda visual únicamente, según el alcance de esta entrega.
-        binding.btnSearch.setOnClickListener { }
-        binding.btnLogout.setOnClickListener {
-            Session.end()
-            returnToLogin()
+        binding.btnSearch.setOnClickListener {
+            val code = binding.etTrackingCode.text.toString().trim()
+            binding.trackingInput.error = if (code.isEmpty()) getString(R.string.required_field) else null
+            if (code.isNotEmpty()) runAction {
+                val parcel = parcels.findForClient(actorId, code)
+                if (parcel == null) showMessage(getString(R.string.package_missing))
+                else startActivity(Intent(this, ParcelDetailActivity::class.java).putExtra("parcelId", parcel.id))
+            }
         }
+        binding.btnProfile.setOnClickListener { startActivity(Intent(this, ProfileActivity::class.java)) }
+        binding.btnLogout.setOnClickListener { logout() }
     }
 
-    private fun returnToLogin() {
-        startActivity(Intent(this, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        })
-        finish()
+    override suspend fun onAuthenticated(user: User) {
+        binding.tvWelcome.text = getString(R.string.client_welcome, user.nombre)
     }
 }
-

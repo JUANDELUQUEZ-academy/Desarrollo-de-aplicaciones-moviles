@@ -5,8 +5,10 @@ import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import com.example.myapplication.data.DuplicateUserException
+import com.example.myapplication.data.AppException
 import com.example.myapplication.data.Registration
 import com.example.myapplication.data.RegistrationValidator
 import com.example.myapplication.data.UserRepository
@@ -20,6 +22,7 @@ import kotlinx.coroutines.launch
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
     private var busy = false
+    private val setupAdmin get() = intent.getBooleanExtra("setupAdmin", false)
     private val fields: Map<String, TextInputLayout>
         get() = mapOf(
             "usuario" to binding.usernameInput, "nombre" to binding.nameInput,
@@ -33,6 +36,13 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
         applyScreenInsets(binding.root)
+        fields.values.forEach { field ->
+            field.editText?.doAfterTextChanged { field.error = null; binding.tvStatus.isVisible = false }
+        }
+        if (setupAdmin) {
+            binding.tvRegisterTitle.setText(R.string.setup_title)
+            binding.tvRegisterDescription.setText(R.string.setup_description)
+        }
         binding.btnCancel.setOnClickListener { if (!busy) finish() }
         binding.btnSubmit.setOnClickListener { submit() }
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
@@ -58,8 +68,9 @@ class RegisterActivity : AppCompatActivity() {
         setBusy(true)
         lifecycleScope.launch {
             try {
-                UserRepository(AppDatabase.getInstance(applicationContext).userDao()).register(data)
-                setResult(RESULT_OK, Intent().putExtra("usuario", RegistrationValidator.normalizeUser(data.usuario)))
+                UserRepository(AppDatabase.getInstance(applicationContext).userDao()).register(data, setupAdmin)
+                setResult(RESULT_OK, Intent().putExtra("usuario", RegistrationValidator.normalizeUser(data.usuario))
+                    .putExtra("adminCreated", setupAdmin))
                 binding.etPassword.text?.clear()
                 binding.etConfirm.text?.clear()
                 finish()
@@ -68,6 +79,9 @@ class RegisterActivity : AppCompatActivity() {
             } catch (_: DuplicateUserException) {
                 binding.usernameInput.error = getString(R.string.duplicate_user)
                 binding.etUsername.requestFocus()
+            } catch (error: AppException) {
+                binding.tvStatus.text = error.message
+                binding.tvStatus.isVisible = true
             } catch (_: Exception) {
                 binding.tvStatus.text = getString(R.string.database_error)
                 binding.tvStatus.isVisible = true
